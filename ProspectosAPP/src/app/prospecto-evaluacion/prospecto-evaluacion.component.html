@@ -1,0 +1,115 @@
+<h1>Evaluación de Prospecto</h1>
+<div class="row">
+    <div class="testbox">
+        <form novalidate autocomplete="off" #form="ngForm" (submit)="updateStatus(form)" (reset)="resetForm(form)">
+    
+            <div class="item">
+                <label>Nombre: </label>
+                <input disabled class="form-control form-control-lg" placeholder="Nombre Completo" name="nombre"
+                    #nombre="ngModel" [(ngModel)]="service.formDataEvaluacion.nombre" maxlength="100">
+            </div>
+            <div class="item">
+                <label>Apellido Paterno: </label>
+                <input disabled class="form-control form-control-lg" placeholder="Apellido Paterno" name="apellidoPaterno"
+                    #apellidoPaterno="ngModel" [(ngModel)]="service.formDataEvaluacion.apellidoPaterno" maxlength="50">
+            </div>
+    
+            <div class="item">
+                <label class="field">Apellido Materno: </label>
+                <input disabled class="form-control form-control-lg" placeholder="Apellido Materno" name="apellidoMaterno"
+                    #apellidoMaterno="ngModel" [(ngModel)]="service.formDataEvaluacion.apellidoMaterno" maxlength="50">
+            </div>
+            <div class="item">
+                <label>Calle: </label>
+                <textarea disabled rows="2" class="form-control form-control-lg" placeholder="Calle" name="calle"
+                    #calle="ngModel" [(ngModel)]="service.formDataEvaluacion.calle" maxlength="200">
+        </textarea>
+            </div>
+            <div class="item">
+                <label>Número de calle: </label>
+                <input disabled class="form-control form-control-lg" placeholder="####" name="numeroCalle"
+                    #numeroCalle="ngModel" [(ngModel)]="service.formDataEvaluacion.numeroCalle" maxlength="4">
+            </div>
+            <div class="item">
+                <label>Colonia: </label>
+                <input disabled class="form-control form-control-lg" placeholder="Colonia" name="colonia" #colonia="ngModel"
+                    [(ngModel)]="service.formDataEvaluacion.colonia" maxlength="50">
+            </div>
+            <div class="item">
+                <label>Código Postal: </label>
+                <input disabled class="form-control form-control-lg" placeholder="Código Postal" name="cp" #cp="ngModel"
+                    [(ngModel)]="service.formDataEvaluacion.cp" maxlength="5">
+            </div>
+            <div class="item">
+                <label>Telefono: </label>
+                <input disabled class="form-control form-control-lg" placeholder="Telefono" name="telefono"
+                    #telefono="ngModel" [(ngModel)]="service.formDataEvaluacion.telefono" maxlength="10">
+            </div>
+            <div class="item">
+                <label>RFC: </label>
+                <input disabled class="form-control form-control-lg" placeholder="RFC" name="rfc" #rfc="ngModel"
+                    [(ngModel)]="service.formDataEvaluacion.rfc" maxlength="13" minlength="12">
+            </div>
+            <div class="item">
+                <select id="estatus" class="form-control form-control-lg" name="estatus" #estatus="ngModel" required
+                required [class.invalid]="estatus.invalid && estatus.touched" [(ngModel)]="service.formDataEvaluacion.estatus"
+                    onChange="changetextbox()">
+                    <option selected disabled value="Enviado">Enviado</option>
+                    <option value="Autorizado">Autorizado</option>
+                    <option value="Rechazado">Rechazado</option>
+                </select>
+            </div>
+            <div class="item" *ngIf="estatus.value==='Rechazado'">
+    
+                <textarea  required  id="observaciones" rows="2" class="form-control form-control-lg" placeholder="Observaciones"
+                    name="observaciones" #observaciones="ngModel" [(ngModel)]="service.formDataEvaluacion.observaciones"
+                    maxlength="200">
+                </textarea>
+                
+            </div>
+            <div class="item">
+                <button [disabled]="form.invalid" id="submit" class="btn-submit" type="submit">ENVIAR</button>
+                <button id="clear" class="btn" type="reset" onclick="resetForm(this.form)">LIMPIAR</button>
+            </div>
+    
+        </form>
+    </div>
+
+<div class="col-md-6" id="cl-tabla">
+    <input type="text" [(ngModel)]="searchValue" placeholder="Buscar..." id="buscador" />
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th hidden>ID</th>
+                <th>Nombre</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th hidden>Calle</th>
+                <th hidden>#</th>
+                <th hidden>C.P.</th>
+                <th hidden>Teléfono</th>
+                <th hidden>RFC</th>
+                <th>Estatus</th>
+                <th>Archivos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pd of service.list | searchfilter:searchValue">
+                <td hidden>{{pd.idProspecto}}</td>
+                <td (click)="populateForm(pd)">{{pd.nombre}}</td>
+                <td (click)="populateForm(pd)">{{pd.apellidoPaterno}}</td>
+                <td (click)="populateForm(pd)">{{pd.apellidoMaterno}}</td>
+                <td hidden>{{pd.calle}}</td>
+                <td hidden>{{pd.numeroCalle}}</td>
+                <td hidden>{{pd.colonia}}</td>
+                <td hidden>{{pd.cp}}</td>
+                <td hidden>{{pd.telefono}}</td>
+                <td hidden>{{pd.rfc}}</td>
+                <td (click)="populateForm(pd)">{{pd.estatus}}</td>
+                <td><button (click)="download(pd.idProspecto)">Descargar</button> </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</div>

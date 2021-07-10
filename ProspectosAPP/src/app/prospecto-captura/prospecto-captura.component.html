@@ -1,0 +1,103 @@
+<h1>Información de Prospecto</h1>
+
+<div class="testbox">
+
+<form novalidate autocomplete="off" #form="ngForm" (submit)="onSubmit(form)" (reset)="resetForm(form)">
+    <input type="hidden" name="idProspecto" [value]="service.formData.idProspecto" />
+    <div class="item">
+        <label class="required-field">Nombre: </label>
+        <input class="form-control form-control-lg" placeholder="Nombre Completo" name="nombre" #nombre="ngModel"
+            [(ngModel)]="service.formData.nombre" required [class.invalid]="nombre.invalid && nombre.touched"
+            maxlength="100">
+    </div>
+    <div class="item">
+        <label class="required-field">Apellido Paterno: </label>
+        <input class="form-control form-control-lg" placeholder="Apellido Paterno" name="apellidoPaterno" #apellidoPaterno="ngModel"
+            [(ngModel)]="service.formData.apellidoPaterno" required [class.invalid]="apellidoPaterno.invalid && apellidoPaterno.touched" maxlength="50">
+    </div>
+
+    <div class="item">
+        <label class="field">Apellido Materno: </label>
+        <input class="form-control form-control-lg" placeholder="Apellido Materno" name="apellidoMaterno" #apellidoMaterno="ngModel"
+            [(ngModel)]="service.formData.apellidoMaterno" [class.invalid]="apellidoMaterno.invalid && apellidoMaterno.touched" maxlength="50">
+    </div>
+    <div class="item">
+        <label class="required-field">Calle: </label>
+        <textarea rows="2" class="form-control form-control-lg" placeholder="Calle" name="calle" #calle="ngModel"
+            [(ngModel)]="service.formData.calle" required [class.invalid]="calle.invalid && calle.touched" maxlength="200">
+        </textarea>
+        </div>
+    <div class="item">
+        <label class="required-field">Número de calle: </label>
+        <input class="form-control form-control-lg" placeholder="####" name="numeroCalle" #numeroCalle="ngModel"
+            [(ngModel)]="service.formData.numeroCalle" required [class.invalid]="numeroCalle.invalid && numeroCalle.touched" maxlength="4"
+            (keypress)="keyPressNumbers($event)">
+    </div>
+    <div class="item">
+        <label class="required-field">Colonia: </label>
+        <input class="form-control form-control-lg" placeholder="Colonia" name="colonia" #colonia="ngModel"
+            [(ngModel)]="service.formData.colonia" required [class.invalid]="colonia.invalid && colonia.touched" maxlength="50">
+    </div>
+    <div class="item">
+        <label class="required-field">Código Postal: </label>
+        <input class="form-control form-control-lg" placeholder="Código Postal" name="cp" #cp="ngModel"
+            [(ngModel)]="service.formData.cp" required [class.invalid]="cp.invalid && cp.touched" maxlength="5"
+            (keypress)="keyPressNumbers($event)">
+    </div>
+    <div class="item">
+        <label class="required-field">Telefono: </label>
+        <input class="form-control form-control-lg" placeholder="Telefono" name="telefono" #telefono="ngModel"
+            [(ngModel)]="service.formData.telefono" required [class.invalid]="telefono.invalid && telefono.touched" maxlength="10"
+            (keypress)="keyPressNumbers($event)">
+    </div>
+    <div class="item">
+        <label class="required-field">RFC: </label>
+        <input class="form-control form-control-lg" placeholder="RFC" name="rfc" #rfc="ngModel"
+            [(ngModel)]="service.formData.rfc" required [class.invalid]="rfc.invalid && rfc.touched" maxlength="13"
+            minlength="12">
+    </div>
+    <div class="item">
+        <label class="btn btn-secondary" (click)="fileInput.value = null">
+            Cargar Archivos
+            <input
+             required
+              #fileInput
+              type="file"
+              style="display: none"
+              (change)="chooseFile(fileInput.files)"
+              multiple
+            />
+          </label>
+    <div *ngIf="selectedFiles && selectedFiles.length">
+        <div
+          *ngFor="let item of selectedFiles"
+          class="d-flex justify-content-between flex-wrap bg-light text-primary"
+        >
+          <div>{{ item.name }}</div>
+          <div>{{ humanFileSize(item.size) }}</div>
+        </div>
+        <div *ngIf="uploading" class="mt-2">
+          <ngb-progressbar
+            type="success"
+            [value]="uploadProgress"
+          ></ngb-progressbar>
+        </div>
+        <button
+          type="button"
+          class="btn btn-primary mt-2"
+          [disabled]="uploading"
+        >
+        <span *ngIf="uploading"> Procesando <loading-bar></loading-bar></span>
+        </button>
+      </div>
+    </div>
+
+      
+    <div class="item">
+        <button id="submit" type="submit"
+        [disabled]="form.invalid" >ENVIAR</button>
+        <button id="clear" class="btn" type="reset" onclick="resetForm(this.form)">LIMPIAR</button>
+    </div>
+    
+</form>
+</div>
